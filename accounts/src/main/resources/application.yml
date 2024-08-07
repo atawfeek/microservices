@@ -1,0 +1,36 @@
+#spring.application.name=accounts
+
+# yml is easier than properties 
+# yml is easier to read, to integrate with docker
+# .properties uses key=value style
+# YAML uses indentation to indicate the structure and hierarchy of the data
+# yml does not repeat props
+
+# .properties as follows
+# server.port=8080
+# spring.datasource.username=sa
+# spring.datasource.password=
+
+# instead, yml as follows
+
+server:
+  port: 8080
+spring:
+  application:
+    name: accounts
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ''
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+
