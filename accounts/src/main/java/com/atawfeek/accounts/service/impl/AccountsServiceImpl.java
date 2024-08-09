@@ -1,5 +1,6 @@
 package com.atawfeek.accounts.service.impl;
 
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import com.atawfeek.accounts.constants.AccountsConstants;
 import com.atawfeek.accounts.dto.CustomerDto;
 import com.atawfeek.accounts.entity.Accounts;
 import com.atawfeek.accounts.entity.Customer;
+import com.atawfeek.accounts.exception.CustomerAlreadyExistsException;
 import com.atawfeek.accounts.mapper.CustomerMapper;
 import com.atawfeek.accounts.repository.AccountsRepository;
 import com.atawfeek.accounts.repository.CustomerRepository;
@@ -24,8 +26,14 @@ public class AccountsServiceImpl implements IAccountsService {
 
     @Override
     public void createAccount(CustomerDto customerDto) {
+        //verify there is no customer with the received mobile number
+        Optional<Customer> optionalCustomer = customerRepository.findByMobileNumber(customerDto.getMobileNumber());
+        if(optionalCustomer.isPresent()) {
+            throw new CustomerAlreadyExistsException("Customer already registered with given mobileNumber "
+                    +customerDto.getMobileNumber());
+        }
+
         Customer customer = CustomerMapper.mapToCustomer(customerDto, new Customer());
-        
         //create a new customer
         Customer savedCustomer = customerRepository.save(customer);
 
