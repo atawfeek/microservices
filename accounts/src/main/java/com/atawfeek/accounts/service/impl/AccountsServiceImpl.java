@@ -1,5 +1,6 @@
 package com.atawfeek.accounts.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -34,6 +35,8 @@ public class AccountsServiceImpl implements IAccountsService {
         }
 
         Customer customer = CustomerMapper.mapToCustomer(customerDto, new Customer());
+        customer.setCreatedAt(LocalDateTime.now());
+        customer.setCreatedBy("Anonymous");
         //create a new customer
         Customer savedCustomer = customerRepository.save(customer);
 
@@ -53,6 +56,9 @@ public class AccountsServiceImpl implements IAccountsService {
         newAccount.setAccountNumber(randomAccNumber);
         newAccount.setAccountType(AccountsConstants.SAVINGS);
         newAccount.setBranchAddress(AccountsConstants.ADDRESS);
+
+        newAccount.setCreatedAt(LocalDateTime.now());
+        newAccount.setCreatedBy("system admin");
         return newAccount;
     }
 

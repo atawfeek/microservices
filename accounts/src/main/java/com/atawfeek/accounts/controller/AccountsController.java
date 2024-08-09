@@ -11,14 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.atawfeek.accounts.constants.AccountsConstants;
 import com.atawfeek.accounts.dto.CustomerDto;
 import com.atawfeek.accounts.dto.ResponseDto;
+import com.atawfeek.accounts.service.IAccountsService;
+
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(path = "/api", produces= {MediaType.APPLICATION_JSON_VALUE})
+@AllArgsConstructor
 public class AccountsController {
-    
+
+    private IAccountsService iAccountsService;
+
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createAccount(@RequestBody CustomerDto customerDto){
 
+        iAccountsService.createAccount(customerDto);
 
         return ResponseEntity
         .status(HttpStatus.CREATED)
